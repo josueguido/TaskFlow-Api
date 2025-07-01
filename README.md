@@ -90,9 +90,7 @@ A robust and scalable backend API for TaskFlow application built with Node.js, T
    CREATE DATABASE taskflow;
    ```
 
-## 🚀 Get
-
-ting Started
+## 🚀 Getting Started
 
 ### Development Mode
 
