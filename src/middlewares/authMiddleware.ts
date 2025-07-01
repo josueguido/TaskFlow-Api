@@ -1,14 +1,8 @@
 import pkg from "jsonwebtoken";
 const { sign, verify } = pkg;
 import { RequestHandler } from "express";
+import { AuthUserPayload } from "../types/express";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any;
-    }
-  }
-}
 
 export const authMiddleware: RequestHandler = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
@@ -19,7 +13,7 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
 
   try {
     const decoded = verify(token, process.env.JWT_SECRET || "default_secret");
-    req.user = decoded;
+    req.user = decoded as AuthUserPayload;
     next();
   } catch (error) {
     res.status(403).json({ message: "Invalid or expired token" });
