@@ -1,5 +1,5 @@
-import { app } from './app';
-import { logger } from './utils/logger';
+import { app } from './app.js';
+import  {logger} from './utils/logger';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: process.env.NODE_ENV === 'production' ? './config/DB/.env.production' : './config/DB/.env.dev' });

@@ -1,5 +1,5 @@
 import express from 'express';
-import { setupSwagger } from './swagger';
+import { setupSwagger } from './config/swagger';
 import { config } from 'dotenv';
 import cors from "cors";
 import morgan from 'morgan';
@@ -17,8 +17,8 @@ app.use(helmet());
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
 
 app.use(limiter);
