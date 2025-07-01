@@ -288,7 +288,7 @@ If you have any questions or issues, please open an issue in the repository.
 For questions or support, feel free to contact:
 
 - **Author**: Josue Guido
-- **Email**: josuguido@example.com
+- **Email**: josuguido@gmail.com
 - **GitHub**: [Josue Guido](https://github.com/josueguido)
 
 ```
