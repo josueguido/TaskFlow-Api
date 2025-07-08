@@ -1,5 +1,5 @@
 import { pool } from "../config/DB";
-import { User } from "../interfaces/userInterface";
+import { User } from "../interfaces/user.interface";
 
 export const createUser = async (name: string, email: string, passwordHash: string, roleId = 3) => {
   const result = await pool.query(
