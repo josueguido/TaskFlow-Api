@@ -1,0 +1,84 @@
+import { RequestHandler } from "express";
+import * as taskService from "../../services/tasks/task.service";
+
+export const getAllTasks: RequestHandler = async (req, res, next) => {
+  try {
+    const tasks = await taskService.getAllTasks();
+    res.json(tasks);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const getTaskById: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const task = await taskService.getTaskById(id);
+    res.json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const createTask: RequestHandler = async (req, res, next) => {
+  try {
+    const { title, description, status, assignedTo } = req.body;
+    const task = await taskService.createTask({ title, description, status, assignedTo, createdAt: new Date() });
+    res.status(201).json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const updateTask: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { title, description, status, assignedTo } = req.body;
+    const task = await taskService.updateTask(id, { title, description, status, assignedTo });
+    res.json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const deleteTask: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await taskService.deleteTask(id);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const changetaskStatus: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { statusId } = req.body;
+    const task = await taskService.changeTaskStatus(id, statusId);
+    res.json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const assignUsersToTask: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { userIds } = req.body;
+    const task = await taskService.assignUsersToTask(id, userIds);
+    res.json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const getTaskHistory: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const history = await taskService.getTaskHistory(id);
+    res.json(history);
+  } catch (error) {
+    next(error);
+  }
+}

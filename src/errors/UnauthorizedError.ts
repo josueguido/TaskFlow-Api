@@ -1,4 +1,4 @@
-import { CustomError } from '../errors/AppError';
+import { CustomError } from './AppError';
 
 class UnauthorizedError extends CustomError {
   constructor(message: string = 'Unauthorized') {
