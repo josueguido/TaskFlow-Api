@@ -19,7 +19,7 @@ export const getAllTasks = async () => {
 export const getTaskById = async (id: string) => {
   const task = await findTaskById(id);
   if (!task) {
-    throw new NotFoundError('Tarea no encontrada');
+    throw new NotFoundError('Task not found');
   }
   return task;
 };
@@ -33,7 +33,7 @@ export const createTask = async (data: ICreateTaskInput) => {
 export const updateTask = async (id: string, data: IUpdateTaskInput) => {
   const existingTask = await findTaskById(id);
   if (!existingTask) {
-    throw new NotFoundError('Tarea no encontrada');
+    throw new NotFoundError('Task not found');
   }
 
   const updated = await modifyTask(id, {
@@ -47,7 +47,7 @@ export const updateTask = async (id: string, data: IUpdateTaskInput) => {
 export const deleteTask = async (id: string) => {
   const deleted = await removeTask(id);
   if (!deleted) {
-    throw new NotFoundError('Tarea no encontrada');
+    throw new NotFoundError('Task not found');
   }
   return deleted;
 };
@@ -55,7 +55,7 @@ export const deleteTask = async (id: string) => {
 export const changeTaskStatus = async (taskId: string, statusId: string) => {
   const task = await findTaskById(taskId);
   if (!task) {
-    throw new NotFoundError('Tarea no encontrada');
+    throw new NotFoundError('Task not found');
   }
 
   const updated = await updateStatus(taskId, statusId);
@@ -65,7 +65,7 @@ export const changeTaskStatus = async (taskId: string, statusId: string) => {
 export const assignUsersToTask = async (taskId: string, userIds: string[]) => {
   const task = await findTaskById(taskId);
   if (!task) {
-    throw new NotFoundError('Tarea no encontrada');
+    throw new NotFoundError('Task not found');
   }
 
   const result = await assignUsers(taskId, userIds);
@@ -75,7 +75,7 @@ export const assignUsersToTask = async (taskId: string, userIds: string[]) => {
 export const getTaskHistory = async (taskId: string) => {
   const task = await findTaskById(taskId);
   if (!task) {
-    throw new NotFoundError('Tarea no encontrada');
+    throw new NotFoundError('Task not found');
   }
 
   const history = await getHistoryByTaskId(taskId);
