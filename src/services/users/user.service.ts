@@ -1,4 +1,4 @@
-import * as userModel from "../models/userModel";
+import * as userModel from "../../models/user.model";
 
 export const registerUser = async (name: string, email: string, passwordHash: string) => {
   const existing = await userModel.findUserByEmail(email);

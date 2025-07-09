@@ -50,20 +50,19 @@ A robust and scalable backend API for TaskFlow application built with Node.js, T
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
-   cd TaskFlow-
-   Backend
+   git clone `https://github.com/josueguido/TaskFlow-Api`
+   cd TaskFlow-Backend
    ```
 
 2. **Install dependencies**
 
    ```bash
-   npm tall
+   npm install
    ```
 
 3. **Environment Configuration**
 
-   Create a `.env` file in the root direry:
+   Create a `.env` file in the root directory:
 
    ```env
    NODE_ENV=development
@@ -72,7 +71,7 @@ A robust and scalable backend API for TaskFlow application built with Node.js, T
    # Database Configuration
    DB_HOST=localhost
    DB_PORT=5432
-   DB_NAME=tflow
+   DB_NAME=taskflow
    DB_USER=your_username
    DB_PASSWORD=your_password
 
@@ -94,8 +93,7 @@ A robust and scalable backend API for TaskFlow application built with Node.js, T
 
 ### Development Mode
 
-Start the developme
-nt server with hot reload:
+Start the development server with hot reload:
 
 ```bash
 npm run dev
@@ -288,7 +286,7 @@ If you have any questions or issues, please open an issue in the repository.
 For questions or support, feel free to contact:
 
 - **Author**: Josue Guido
-- **Email**: josuguido@example.com
+- **Email**: josuguido@gmail.com
 - **GitHub**: [Josue Guido](https://github.com/josueguido)
 
 ```
