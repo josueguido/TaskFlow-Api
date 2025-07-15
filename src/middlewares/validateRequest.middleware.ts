@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ZodSchema } from 'zod';
+import { BadRequestError } from '../errors/BadRequestError';
 
 export const validateRequest = (
   schema: ZodSchema<any>,
@@ -9,10 +10,9 @@ export const validateRequest = (
     const result = schema.safeParse(req[source]);
 
     if (!result.success) {
-      res.status(400).json({
-        message: 'Validation failed',
-        errors: result.error.flatten().fieldErrors,
-      });
+      throw new BadRequestError(
+        JSON.stringify(result.error.flatten().fieldErrors)
+      );
     }
 
     req[source] = result.data;

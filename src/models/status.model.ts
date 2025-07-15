@@ -24,7 +24,7 @@ export const createStatus = async (name: string, order: number): Promise<IStatus
 
 export const updateStatus = async (id: number, name: string, order: string): Promise<IStatus> => {
   const result = await pool.query(
-    `UPDATE statuses SET name = $1 WHERE id = $2 RETURNING *`,
+    `UPDATE statuses SET name = $1, order = $2 WHERE id = $3 RETURNING *`,
     [name, order, id]
   );
   if (result.rows.length === 0) {
