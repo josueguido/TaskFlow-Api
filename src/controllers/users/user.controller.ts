@@ -1,5 +1,5 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import * as userService from "../services/userService";
+import { RequestHandler } from "express";
+import * as userService from "../../services/users/user.service";
 import bcrypt from "bcryptjs";
 
 export const register: RequestHandler = async (req, res, next) => {
