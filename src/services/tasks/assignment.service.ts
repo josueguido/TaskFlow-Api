@@ -7,7 +7,7 @@ import {
   removeAssignment,
   removeAllAssignments,
   isUserAssignedToTask
-} from '../../models/assingment.model';
+} from '../../models/assignment.model';
 
 
 export const getAllAssignments = async () => {

@@ -59,7 +59,7 @@ export const deleteTask: RequestHandler = async (req, res, next) => {
   }
 }
 
-export const changetaskStatus: RequestHandler = async (req, res, next) => {
+export const changeTaskStatus: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { statusId } = req.body;

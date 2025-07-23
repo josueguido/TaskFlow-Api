@@ -27,7 +27,7 @@ router.put(
 router.patch(
   '/:id/status',
   validateRequest(changeStatusSchema),
-  taskController.changetaskStatus
+  taskController.changeTaskStatus
 );
 
 router.post(

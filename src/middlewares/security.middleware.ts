@@ -6,18 +6,19 @@ import { logger } from '../utils/logger';
  */
 export const securityLogger: RequestHandler = (req, res, next) => {
   const startTime = Date.now();
+  const ignoredPaths = ['/favicon.ico', '/docs', '/health'];
+  if (ignoredPaths.includes(req.path)) return next();
 
-  // Log de request
   logger.info(`${req.method} ${req.path}`, {
     ip: req.ip,
     userAgent: req.get('User-Agent'),
     timestamp: new Date().toISOString(),
-    userId: req.user?.id || 'anonymous'
+    // userId: req.user?.id || 'anonymous'
   });
 
   // Override del método end para capturar response
   const originalEnd = res.end.bind(res);
-  res.end = function(chunk?: any, encoding?: any, cb?: any) {
+  res.end = function (chunk?: any, encoding?: any, cb?: any) {
     const duration = Date.now() - startTime;
 
     // Log de response
@@ -27,7 +28,7 @@ export const securityLogger: RequestHandler = (req, res, next) => {
       statusCode: res.statusCode,
       duration,
       ip: req.ip,
-      userId: req.user?.id || 'anonymous'
+      // userId: req.user?.id || 'anonymous'
     });
 
     // Log de eventos sospechosos
@@ -38,7 +39,7 @@ export const securityLogger: RequestHandler = (req, res, next) => {
         statusCode: res.statusCode,
         ip: req.ip,
         userAgent: req.get('User-Agent'),
-        body: req.body,
+        body: { ...(req.body?.email && { email: req.body.email }) },
         params: req.params,
         query: req.query
       });
@@ -53,7 +54,7 @@ export const securityLogger: RequestHandler = (req, res, next) => {
 /**
  * Middleware para detectar múltiples intentos fallidos
  */
-const failedAttempts = new Map<string, { count: number; lastAttempt: number }>();
+export const failedAttempts = new Map<string, { count: number; lastAttempt: number }>();
 
 export const bruteForceProtection: RequestHandler = (req, res, next) => {
   const ip = req.ip || req.connection.remoteAddress || 'unknown';
@@ -85,7 +86,7 @@ export const bruteForceProtection: RequestHandler = (req, res, next) => {
 
   // Override del método end para capturar respuestas de error
   const originalEnd = res.end.bind(res);
-  res.end = function(chunk?: any, encoding?: any, cb?: any) {
+  res.end = function (chunk?: any, encoding?: any, cb?: any) {
     if (res.statusCode === 401 || res.statusCode === 403) {
       const current = failedAttempts.get(ip) || { count: 0, lastAttempt: 0 };
       failedAttempts.set(ip, {

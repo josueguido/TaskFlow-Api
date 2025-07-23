@@ -11,5 +11,5 @@ export const updateStatusSchema = z.object({
 });
 
 export const statusIdSchema = z.object({
-  id: z.string().uuid("Invalid status ID format"),
+  id: z.string().transform((val) => parseInt(val, 10)).pipe(z.number().int().positive()),
 });
