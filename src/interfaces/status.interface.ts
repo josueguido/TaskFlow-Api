@@ -10,7 +10,7 @@ export interface ICreateStatus {
 }
 
 export interface IUpdateStatus {
-  id: number;
+  // id: number;
   name: string;
-  order: string;
+  order: number;
 }

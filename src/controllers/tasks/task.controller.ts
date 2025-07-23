@@ -1,5 +1,7 @@
 import { RequestHandler } from "express";
 import * as taskService from "../../services/tasks/task.service";
+import { BadRequestError } from "../../errors/BadRequestError";
+import { validateUUID, validateUUIDs } from "../../utils/validators";
 
 export const getAllTasks: RequestHandler = async (req, res, next) => {
   try {
@@ -13,6 +15,12 @@ export const getAllTasks: RequestHandler = async (req, res, next) => {
 export const getTaskById: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    if (!id) {
+      throw new BadRequestError("Task ID is required");
+    }
+    validateUUID(id, 'Task ID');
+
     const task = await taskService.getTaskById(id);
     res.json(task);
   } catch (error) {
@@ -51,7 +59,7 @@ export const deleteTask: RequestHandler = async (req, res, next) => {
   }
 }
 
-export const changetaskStatus: RequestHandler = async (req, res, next) => {
+export const changeTaskStatus: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { statusId } = req.body;
@@ -66,8 +74,12 @@ export const assignUsersToTask: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { userIds } = req.body;
-    const task = await taskService.assignUsersToTask(id, userIds);
-    res.json(task);
+
+    validateUUID(id, 'Task ID');
+    validateUUIDs(userIds, 'User IDs');
+
+    const result = await taskService.assignUsersToTask(id, userIds);
+    res.json(result);
   } catch (error) {
     next(error);
   }

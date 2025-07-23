@@ -10,6 +10,7 @@ import {
   getHistoryByTaskId,
 } from "../../models/task.model";
 import { NotFoundError } from "../../errors/NotFoundError";
+import { validateUUID } from '../../utils/validators';
 
 export const getAllTasks = async () => {
   const tasks = await getTasks();
@@ -17,6 +18,7 @@ export const getAllTasks = async () => {
 };
 
 export const getTaskById = async (id: string) => {
+  validateUUID(id, 'Task ID');
   const task = await findTaskById(id);
   if (!task) {
     throw new NotFoundError('Task not found');
