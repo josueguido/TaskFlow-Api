@@ -15,6 +15,8 @@ import userRoutes from './routes/users/user.routes';
 import taskRoutes from './routes/tasks/task.routes';
 import assignmentRoutes from './routes/tasks/assignment.routes';
 import statusRoutes from './routes/tasks/status.routes';
+import authRoutes from './routes/users/auth.routes';
+import roleRoutes from './routes/users/role.routes';
 import { errorHandler } from './middlewares/error.handler';
 
 startSecurityCleanup();
@@ -45,6 +47,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/status', statusRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/roles', roleRoutes);
+
 
 setupSwagger(app);
 

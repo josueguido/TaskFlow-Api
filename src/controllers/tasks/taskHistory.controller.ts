@@ -7,6 +7,11 @@ import * as taskHistoryService from "../../services/tasks/taskHistory.service";
 export const getTaskHistory: RequestHandler = async (req, res, next) => {
   try {
     const { taskId } = req.params;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      throw new BadRequestError("User ID is required");
+    }
 
     if (!taskId) {
       throw new BadRequestError("Task ID is required");

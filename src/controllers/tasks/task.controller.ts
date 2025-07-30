@@ -30,8 +30,8 @@ export const getTaskById: RequestHandler = async (req, res, next) => {
 
 export const createTask: RequestHandler = async (req, res, next) => {
   try {
-    const { title, description, status, assignedTo } = req.body;
-    const task = await taskService.createTask({ title, description, status, assignedTo, createdAt: new Date() });
+    const { title, description, status_id, assignedTo } = req.body;
+    const task = await taskService.createTask({ title, description, status_id, assignedTo, created_at: new Date() });
     res.status(201).json(task);
   } catch (error) {
     next(error);
@@ -41,8 +41,8 @@ export const createTask: RequestHandler = async (req, res, next) => {
 export const updateTask: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, description, status, assignedTo } = req.body;
-    const task = await taskService.updateTask(id, { title, description, status, assignedTo });
+    const { title, description, status_id, assignedTo } = req.body;
+    const task = await taskService.updateTask(id, { title, description, status_id, assignedTo });
     res.json(task);
   } catch (error) {
     next(error);

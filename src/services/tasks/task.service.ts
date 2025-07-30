@@ -28,7 +28,7 @@ export const getTaskById = async (id: string) => {
 
 export const createTask = async (data: ICreateTaskInput) => {
   const now = new Date();
-  const task = await insertTask({ ...data, createdAt: now });
+  const task = await insertTask({ ...data, created_at: now });
   return task;
 };
 

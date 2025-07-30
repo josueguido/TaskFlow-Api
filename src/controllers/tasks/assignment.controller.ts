@@ -64,7 +64,6 @@ export const removeAllAssignments: RequestHandler = async (req, res, next) => {
   }
 }
 
-
 export const isUserAssignedToTask: RequestHandler = async (req, res, next) => {
   try {
     const { taskId, userId } = req.params;
