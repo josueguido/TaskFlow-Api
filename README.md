@@ -185,12 +185,25 @@ The API will be available at `http://localhost:3000`
 - `PUT /api/users/:id` - Update user profile
 - `DELETE /api/users/:id` - Delete user (Admin only)
 
-### Projects
-- `GET /api/projects` - Get all projects
-- `POST /api/projects` - Create new project
-- `GET /api/projects/:id` - Get project by ID
-- `PUT /api/projects/:id` - Update project
-- `DELETE /api/projects/:id` - Delete project
+### Status
+- `id` (Primary Key)
+- `name` (e.g., "To Do", "In Progress", "Done")
+- `description`
+- `color` (hex color code)
+- `is_active` (boolean)
+- `created_at`
+- `updated_at`
+
+### Task History
+- `id` (Primary Key)
+- `task_id` (Foreign Key → Tasks)
+- `user_id` (Foreign Key → Users)
+- `action` (created, updated, status_changed, assigned, etc.)
+- `field_name` (which field was changed)
+- `old_value` (previous value)
+- `new_value` (new value)
+- `description` (human-readable description)
+- `created_at`
 
 ### Tasks
 - `GET /api/tasks` - Get all tasks
@@ -233,6 +246,22 @@ curl -X POST http://localhost:3000/api/tasks \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{"title":"Complete project","description":"Finish the TaskFlow backend","priority":"high"}'
+
+# Update task status
+curl -X PUT http://localhost:3000/api/tasks/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{"status_id":2}'
+
+# Get task history
+curl -X GET http://localhost:3000/api/tasks/1/history \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+# Create new status
+curl -X POST http://localhost:3000/api/status \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{"name":"In Review","description":"Task is being reviewed","color":"#FFA500"}'
 ```
 
 ## 🧪 Testing
@@ -358,14 +387,6 @@ The application uses PostgreSQL with the following main entities:
 - `password` (Hashed)
 - `name`
 - `role` (user, admin)
-- `created_at`
-- `updated_at`
-
-### Projects
-- `id` (Primary Key)
-- `name`
-- `description`
-- `owner_id` (Foreign Key → Users)
 - `created_at`
 - `updated_at`
 
@@ -522,7 +543,7 @@ For questions or support, feel free to contact:
 - **Author**: Josue Guido
 - **Email**: josuguido@gmail.com
 - **GitHub**: [Josue Guido](https://github.com/josueguido)
-- **LinkedIn**: [Your LinkedIn Profile]
+- **LinkedIn**: []
 
 ---
 
