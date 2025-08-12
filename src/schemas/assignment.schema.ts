@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+export const taskIdSchema = z.object({
+  taskId: z.string().refine(val => {
+    const num = parseInt(val, 10);
+    return !isNaN(num) && num > 0;
+  }, {
+    message: "Task ID must be a positive integer"
+  }),
+});
+
 export const updateAssignmentSchema = z.object({
   assignedAt: z.string().datetime().optional(),
 });

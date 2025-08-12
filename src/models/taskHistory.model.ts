@@ -3,7 +3,7 @@ import { ITaskHistory, ICreateTaskHistory } from "../interfaces/taskHistory.inte
 
 export const getTaskHistoryByTaskId = async (taskId: number) => {
   const result = await pool.query(
-    `SELECT * FROM task_history WHERE task_id = $1 ORDER BY created_at DESC`,
+    `SELECT * FROM task_history WHERE task_id = $1 ORDER BY changed_at DESC`,
     [taskId]
   );
   return result.rows as ITaskHistory[];

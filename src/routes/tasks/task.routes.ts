@@ -11,6 +11,7 @@ import {
 const router = Router();
 
 router.get('/', taskController.getAllTasks);
+router.get('/:id', taskController.getTaskById);
 
 router.post(
   '/',

@@ -5,7 +5,7 @@ export interface ITaskHistory {
   field_changed: string;
   old_value: string | null;
   new_value: string | null;
-  created_at: Date;
+  changed_at: Date;
 }
 
 export interface ICreateTaskHistory {
