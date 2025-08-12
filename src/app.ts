@@ -13,8 +13,11 @@ import { startSecurityCleanup } from './middlewares/security.cleanup';
 import { preventSQLInjection } from './middlewares/prevent.SQLInjection';
 import userRoutes from './routes/users/user.routes';
 import taskRoutes from './routes/tasks/task.routes';
+import taskHistoryRoutes from './routes/tasks/taskHistory.routes'
 import assignmentRoutes from './routes/tasks/assignment.routes';
 import statusRoutes from './routes/tasks/status.routes';
+import authRoutes from './routes/users/auth.routes';
+import roleRoutes from './routes/users/role.routes';
 import { errorHandler } from './middlewares/error.handler';
 
 startSecurityCleanup();
@@ -43,8 +46,12 @@ app.get("/", (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/task', taskHistoryRoutes)
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/status', statusRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/roles', roleRoutes);
+
 
 setupSwagger(app);
 

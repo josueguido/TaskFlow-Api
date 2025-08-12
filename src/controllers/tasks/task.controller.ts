@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import * as taskService from "../../services/tasks/task.service";
 import { BadRequestError } from "../../errors/BadRequestError";
-import { validateUUID, validateUUIDs } from "../../utils/validators";
 
 export const getAllTasks: RequestHandler = async (req, res, next) => {
   try {
@@ -19,7 +18,6 @@ export const getTaskById: RequestHandler = async (req, res, next) => {
     if (!id) {
       throw new BadRequestError("Task ID is required");
     }
-    validateUUID(id, 'Task ID');
 
     const task = await taskService.getTaskById(id);
     res.json(task);
@@ -30,8 +28,8 @@ export const getTaskById: RequestHandler = async (req, res, next) => {
 
 export const createTask: RequestHandler = async (req, res, next) => {
   try {
-    const { title, description, status, assignedTo } = req.body;
-    const task = await taskService.createTask({ title, description, status, assignedTo, createdAt: new Date() });
+    const { title, description, status_id } = req.body;
+    const task = await taskService.createTask({ title, description, status_id, created_at: new Date() });
     res.status(201).json(task);
   } catch (error) {
     next(error);
@@ -41,8 +39,8 @@ export const createTask: RequestHandler = async (req, res, next) => {
 export const updateTask: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, description, status, assignedTo } = req.body;
-    const task = await taskService.updateTask(id, { title, description, status, assignedTo });
+    const { title, description, status_id, assignedTo } = req.body;
+    const task = await taskService.updateTask(id, { title, description, status_id });
     res.json(task);
   } catch (error) {
     next(error);
@@ -75,8 +73,6 @@ export const assignUsersToTask: RequestHandler = async (req, res, next) => {
     const { id } = req.params;
     const { userIds } = req.body;
 
-    validateUUID(id, 'Task ID');
-    validateUUIDs(userIds, 'User IDs');
 
     const result = await taskService.assignUsersToTask(id, userIds);
     res.json(result);

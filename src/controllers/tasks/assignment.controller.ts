@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import * as assignmentService from "../../services/tasks/assignment.service";
 import { BadRequestError } from "../../errors/BadRequestError";
-import { validateUUID, validateUUIDs } from "../../utils/validators";
 
 export const getAllAssignments: RequestHandler = async (req, res, next) => {
   try {
@@ -14,6 +13,7 @@ export const getAllAssignments: RequestHandler = async (req, res, next) => {
 
 export const getAssignmentsByTaskId: RequestHandler = async (req, res, next) => {
   try {
+     console.log("🎯 Controller ejecutado con taskId:", req.params.taskId);
     const { taskId } = req.params;
     if (!taskId) {
       throw new BadRequestError("Task ID is required");
@@ -42,8 +42,6 @@ export const removeAssignment: RequestHandler = async (req, res, next) => {
     if (!taskId || !userId) {
       throw new BadRequestError("Task ID and User ID are required");
     }
-    validateUUID(taskId, 'Task ID');
-    validateUUID(userId, 'User ID');
     const assignment = await assignmentService.removeAssignmentService(taskId, userId);
     res.json(assignment);
   } catch (error) {
@@ -64,15 +62,12 @@ export const removeAllAssignments: RequestHandler = async (req, res, next) => {
   }
 }
 
-
 export const isUserAssignedToTask: RequestHandler = async (req, res, next) => {
   try {
     const { taskId, userId } = req.params;
     if (!taskId || !userId) {
       throw new BadRequestError("Task ID and User ID are required");
     }
-    validateUUID(taskId, 'Task ID');
-    validateUUID(userId, 'User ID');
     const isAssigned = await assignmentService.isUserAssignedToTaskService(taskId, userId);
     res.json({ isAssigned });
   } catch (error) {

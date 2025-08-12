@@ -1,5 +1,17 @@
 {
   "compilerOptions": {
+     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/errors/*": ["errors/*"],
+      "@/controllers/*": ["controllers/*"],
+      "@/services/*": ["services/*"],
+      "@/middlewares/*": ["middlewares/*"],
+      "@/utils/*": ["utils/*"],
+      "@/config/*": ["config/*"],
+      "@/models/*": ["models/*"],
+      "@/types/*": ["types/*"]
+    },
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",
