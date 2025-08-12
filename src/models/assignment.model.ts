@@ -12,7 +12,7 @@ export const getAssignments = async () => {
       u.email as user_email,
       t.title as task_title,
       t.description as task_description
-    FROM assignments a
+    FROM task_assignments a
     JOIN users u ON a.user_id = u.id
     JOIN tasks t ON a.task_id = t.id
     ORDER BY a.assigned_at DESC
@@ -23,7 +23,7 @@ export const getAssignments = async () => {
 export const getAssignmentsByTaskId = async (taskId: string) => {
   const result = await pool.query(`
     SELECT a.task_id, a.user_id, a.assigned_at, u.name as user_name, u.email as user_email
-    FROM assignments a
+    FROM task_assignments a
     JOIN users u ON a.user_id = u.id
     WHERE a.task_id = $1
     ORDER BY a.assigned_at DESC
@@ -50,7 +50,7 @@ export const assignUsersToTask = async (taskId: string, userIds: string[]) => {
     }
 
     await client.query(
-      'DELETE FROM assignments WHERE task_id = $1 AND user_id = ANY($2)',
+      'DELETE FROM task_assignments WHERE task_id = $1 AND user_id = ANY($2)',
       [taskId, userIds]
     );
 
@@ -58,7 +58,7 @@ export const assignUsersToTask = async (taskId: string, userIds: string[]) => {
     const params = [taskId, ...userIds];
 
     const query = `
-      INSERT INTO assignments (task_id, user_id, assigned_at)
+      INSERT INTO task_assignments (task_id, user_id, assigned_at)
       VALUES ${values}
       RETURNING *
     `;
@@ -76,7 +76,7 @@ export const assignUsersToTask = async (taskId: string, userIds: string[]) => {
 
 export const removeAssignment = async (taskId: string, userId: string) => {
   const result = await pool.query(`
-    DELETE FROM assignments WHERE task_id = $1 AND user_id = $2 RETURNING *
+    DELETE FROM task_assignments WHERE task_id = $1 AND user_id = $2 RETURNING *
   `, [taskId, userId]);
   if (result.rows.length === 0) {
     throw new NotFoundError(`Assignment with task_id ${taskId} and user_id ${userId} not found`);
@@ -86,7 +86,7 @@ export const removeAssignment = async (taskId: string, userId: string) => {
 
 export const removeAllAssignments = async (taskId: string): Promise<any[]> => {
   const result = await pool.query(`
-    DELETE FROM assignments WHERE task_id = $1 RETURNING *
+    DELETE FROM task_assignments WHERE task_id = $1 RETURNING *
   `, [taskId]);
   if (result.rows.length === 0) {
     throw new NotFoundError(`No assignments found for task_id ${taskId}`);
@@ -96,7 +96,7 @@ export const removeAllAssignments = async (taskId: string): Promise<any[]> => {
 
 export const isUserAssignedToTask = async (taskId: string, userId: string): Promise<boolean> => {
   const result = await pool.query(`
-    SELECT * FROM assignments WHERE task_id = $1 AND user_id = $2
+    SELECT * FROM task_assignments WHERE task_id = $1 AND user_id = $2
   `, [taskId, userId]);
   return result.rows.length > 0;
 }

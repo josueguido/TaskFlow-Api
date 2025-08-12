@@ -1,10 +1,8 @@
-import { ICreateTaskHistory, ITaskHistory } from "../../interfaces/taskHistory.interface";  
+import { ICreateTaskHistory, ITaskHistory } from "../../interfaces/taskHistory.interface";
 import { getTaskHistoryByTaskId, inserTaskHistory } from "../../models/taskHistory.model";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { validateUUID } from '../../utils/validators';
 
 export const getTaskHistoryService = async (taskId: string) => {
-  validateUUID(taskId, 'Task ID');
   const history = await getTaskHistoryByTaskId(Number(taskId));
   if (!history || history.length === 0) {
     throw new NotFoundError(`No history found for task_id ${taskId}`);
@@ -17,7 +15,7 @@ export const createTaskHistoryService = async (data: ICreateTaskHistory): Promis
   if (!task_id || !user_id || !field_changed) {
     throw new Error('Missing required fields for task history creation');
   }
-  
+
   const history = await inserTaskHistory({
     task_id,
     user_id,
@@ -25,6 +23,6 @@ export const createTaskHistoryService = async (data: ICreateTaskHistory): Promis
     old_value: old_value ?? null,
     new_value: new_value ?? null
   });
-  
+
   return history;
 }

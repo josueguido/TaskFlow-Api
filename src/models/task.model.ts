@@ -21,7 +21,7 @@ export const getTaskById = async (id: string) => {
 export const createTask = async (task: ITask) => {
   const result = await pool.query(`
     INSERT INTO tasks (title, description, status_id, created_at)
-    VALUES ($1, $2, $3, $4, $5)
+    VALUES ($1, $2, $3, $4)
     RETURNING *`,
     [task.title, task.description, task.status_id, task.created_at]
   );
