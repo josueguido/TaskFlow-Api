@@ -1,6 +1,6 @@
 import { CustomError } from './AppError';
 
-class UnauthorizedError extends CustomError {
+export class UnauthorizedError extends CustomError {
   constructor(message: string = 'Unauthorized') {
     super(message, 401);
     this.name = 'UnauthorizedError';

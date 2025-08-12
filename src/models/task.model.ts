@@ -20,10 +20,10 @@ export const getTaskById = async (id: string) => {
 
 export const createTask = async (task: ITask) => {
   const result = await pool.query(`
-    INSERT INTO tasks (title, description, status, assignedTo, createdAT)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO tasks (title, description, status_id, created_at)
+    VALUES ($1, $2, $3, $4)
     RETURNING *`,
-    [task.title, task.description, task.status, task.assignedTo, task.createdAt]
+    [task.title, task.description, task.status_id, task.created_at]
   );
   return result.rows[0];
 };
@@ -31,10 +31,10 @@ export const createTask = async (task: ITask) => {
 export const updateTask = async (id: string, task: ITask) => {
   const result = await pool.query(`
     UPDATE tasks
-    SET title = $1, description = $2, status = $3, assignedTo = $4
-    WHERE id = $5
+    SET title = $1, description = $2, status_id = $3
+    WHERE id = $4
     RETURNING *
-  `, [task.title, task.description, task.status, task.assignedTo, id],
+  `, [task.title, task.description, task.status_id, id],
   );
 
   if (result.rows.length === 0) {
